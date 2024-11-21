@@ -1,6 +1,7 @@
 ﻿using Cards;
 using DG.Tweening;
 using Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,12 +18,19 @@ namespace Battle
         [SerializeField] private Ease _scaleEase;
         [SerializeField] private float _scaleDuration;
 
+        [SerializeField] private TMP_Text _indicatorText;
+
         [SerializeField] private PlayerHand _enemyHand;
         [SerializeField] private PlayerHand _playerHand;
         
         private CardView _playerCard;
         private bool _isPlayersTurn = true;
-        
+
+        private void Start()
+        {
+            _indicatorText.text = "Players Turn!";
+        }
+
         public void SelectPlayerCard(CardView cardView)
         {
             _playerCard = cardView;
@@ -41,6 +49,7 @@ namespace Battle
 
                 _isPlayersTurn = false;
                 
+                _indicatorText.text = "Enemies Turn!";
                 Invoke(nameof(EnemyTurn), 0.5f);
             }
         }
@@ -53,6 +62,8 @@ namespace Battle
             FlingCard(randomChoice, randomTarget);
             
             _isPlayersTurn = true;
+            
+            _indicatorText.text = "Players Turn!"; 
         }
 
         private void FlingCard(CardView aggressor, Component defender)
